@@ -1,0 +1,23 @@
+html {
+    background: url("background.gif") no-repeat center center fixed;
+    background-size: cover;
+    opacity: .85;
+    /* background-image */
+ }
+ 
+ .container {
+    background-color: white;
+ }
+
+ .pokemon {
+     height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+header {
+    background-color: white;
+    margin-left: 167px;
+    margin-right: 166px;
+}

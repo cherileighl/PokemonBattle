@@ -1,0 +1,686 @@
+<!--TEAM 13 - Rebecca Bingham, Jake Thibault, Caroline Hawley, Eli Allen, Cherileigh Leavitt, Chase Garrett
+    SECTION 1
+    DESCRIPTION:
+Use the following provided files for creating your Pokemon Battle website. Make sure you follow the directions for downloading the files and putting them in the correct folder.
+Create a folder called finalExam. Download the index.html file and place it in that folder.
+NOTE: You should be able to right mouse click on the link and choose Save Link As and then it will save the files.
+HERE IS THE ZIP FILE THAT CONTAINS ALL OF THE FILES LISTED BELOW:
+Project2.zip  Download 
+ 
+Here are the files in the zip folder:
+index.html -  This is the html file. You will NOT need to modify the html tags BUT you WILL need to add your JavaScript in the SCRIPT tags.
+poke.css - Contains the CSS needed. DO NOT MODIFY
+pokemon.js - Contains the data you will read to load up random pokemons. DO NOT MODIFY. You will use this file when you randomly select pokemons and also for your selected pokemons in the select box. The file indicates the order of the data and what it means. It is an array of data with each data being another array. You will use that data when creating Pokemon objects.
+images.zip - Contains the images for the pokemons. DO NOT MODIFY
+loading-bar.css - Contains the CSS needed for the loading bar. DO NOT MODIFY
+loading-bar.js - Contains the JavaScript needed for the loading bar. DO NOT MODIFY
+In your project folder finalExam create a sub-folder called images and unzip the images.zip file in that folder
+In your project folder finalExam create a sub-directory called loading-bar and copy the loading-bar.css and loading-bar.js files in that folder
+Your job will be to write the necessary JavaScript code to finish the Pokemon Battle website. When completed, the battle screen will look as follows upon initial start:
+FinalExamScreen1.JPG  Download 
+First name and last name are required fields. If they do not enter those, display a message and set focus to which ever one is empty. If it is not empty do not set focus to that input.
+After filling in the required form information, the user will click on the Go Battle button to begin the game. You will need to generate random numbers to load up the opponent's pokemons from the array of data in the pokemon.js file. You will read the First, Second, and Third pokemon select boxes to load up your team of pokemon objects. You will also select your trainer from the select box.
+Using the form data, you will create your team array of pokemon objects and the opponents team array of pokemon objects (NOTE: The opponent Trainer will always be Team Rocket and will use the Team_Rocket.png file for the image). You are also creating both Trainer objects. The opposing team first name will always be "Team" and the last name will be "Rocket" and the type will be "Team Rocket". Generate random numbers to select the opponent's Pokemon's in the team (Party).
+The user will click on the Attack button and will see something like:
+FinalExamScreen2.JPG  Download 
+NOTE: One click of the attack button does your attack and the opponents attack.
+Your first pokemon object in your team will attack the opponent's first pokemon object. Each object starts with a health power of 100. As you attack you will generate a hit power and possibly reduce your opponent's health power. Then they will attack and possibly reduce your pokemon's health power. If your pokemon's health power goes down to 0 (or less) then your new active pokemon will be the next pokemon object in your team. The same applies for the opponent's pokemon. If the health power for the current pokemon hits 0 then you move on to the next pokemon. In other words, you will need to keep track of the trainer's current pokemon for each team. Once that pokemon faints, then you have to update or move on to the next pokemon and make it the current pokemon to battle.
+The user will continue to click on the Attack button until either the user or the computer wins the battle. Once one of the team runs out of pokemon's (All of their pokemon's health have hit 0 and they have fainted and the current pokemon is null), then the game is over and the winner is determined.
+When your pokemon attacks, you will display your active pokemon's name and the word "attacks!" in your move box. If your pokemon's health hits 0 then you will display your pokemon's name and the word "fainted!" in the same box. There are 4 paragraph tags in each box display (myMove, myEffectiveness, myExtra, and myFainted). You will be dynamically updating these tags as the game is being played.
+The opponent also has a copy of their own tags and you will update those as the game is played.
+The results box has a p tag that will display the final results when the game is over (i.e. Team Rocket wins!). You will display the trainer's name and "wins!". You will then update the wins and losses for each trainer object for each game completed.
+You will want to create 2 global variables (one for each trainer).
+Create a Person class with the attributes of firstName and lastName. Make sure you create the proper constructor that receives params.
+Create a Pokemon class with the attributes of name, type, image, and healthPower. Create the appropriate constructor that receives the name, type, and image. The healthPower attribute will be initially set to 100.
+Create a method in the Pokemon class that receives the new healthPower and you will update your healthPower attribute for the object. Also call the load bar to update it using the healthPower value.
+bar1.set(this.healthPower);
+Create a Trainer class that inherits from Person. It adds the following attributes: type, party, currPokemon, currPokemonIndex, wins, and losses.
+Make sure you make the appropriate constructor that receives the first name, last name, and type.
+The party attribute will end up being an array of Pokemon objects (that is the team). The type is the type of trainer (i.e. Bug Catcher, Hiker, etc.) from the Trainer select box. The currPokemon keeps track of your current Pokemon that is battling. The currPokemonIndex keeps track of which Pokemon is battling (1, 2, or 3). The wins and losses are updated at the end of each completed game.
+Create a method called addPokemonToParty that receives a pokemon object and adds it to the party attribute for the Trainer object.
+Create a method called nextPokemon which updates the currPokemonIndex attribute when called. If you try to exceed the count of the party array then assign the value of null to the currPokemon.
+Create a method called clearParty that resets the party array.
+Create a battle function. When the battle is first started, the Restart button should be hidden. When the battle is completed, the Attack button is hidden and the Restart button is displayed.
+Make sure that after you create your Pokemon parties, for each Pokemon you display the associated image and name. For the trainer you will display the associated image, name, wins, and losses. You will do this for your party and your opponent's party.
+HOW THE HEALTH POWER IS MODIFIED:
+When you attack you have to calculate the level of your effectiveness. I had a variable called damage and gave it a value of 10. The effectiveness is calculated by calling a function called calculateEffectiveness. This function receives each of the current Pokemon's type for your party and the opponent's party. 
+Type == Type then return .5
+Fire vs Water then return .5
+Fire vs Grass then return 1.5
+Water vs Fire then return 1.5
+Water vs Grass then return .5
+Grass vs Fire then return .5
+Grass vs water then return 1.5
+Otherwise return 1
+Use this value to determine the Effectiveness display for each attack. If the value is 1.5 then display "It was super effective!". If the value is .5 then display "It was not very effective...". Write this to the myEffectiveness html object using the DOM.
+Generate a random multiplier number between 0 and 1 (do NOT include the number one though). If the multiplier value is >= .9 then write "Critical Hit" to the myExtra html object using the DOM. If the multiplier value is <= .1 then write "But it missed..." to the myExtra html object and write an empty string to the myEffectiveness html object instead of the "It was super effective!" or "It was not very effective..."
+Calculate the damage power to the health for the Pokemon by using the formula:
+damage * effectiveness * multplier
+This value is used to modify the health power and is passed to the appropriate class method to update the opponent's health power if you attack. Update your health power if the opponent attacks.
+In other words, your Pokemon will attack, update the opponent's health and then will attack and update your Pokemon's health.
+Continue this process until a pokemon faints (healthPower = 0). Once that pokemon's healthPower = 0 then move on to the next pokemon in the party. If a party runs out of pokemons then the other party wins.
+Display an appropriate winning message and update the wins and losses attributes for each trainer.
+FinalExamScreen3.JPG  Download 
+Note that when the battle is over the Attack button is hidden and the Restart button is displayed
+The Restart button will reset the healthPower in each of the Parties to 100 and reset each of the trainer's current pokemon's index to the first element. It will also clear the displays and hide the Restart button.
+-->
+Coll
+
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Pokemon Batte</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Roboto|Roboto+Condensed|Roboto+Mono" >
+    <link rel='stylesheet' type='text/css' href='./loading-bar/loading-bar.css'>    
+    <link rel="stylesheet" type="text/css" media="screen" href="poke.css">
+    <script type='text/javascript' src='./loading-bar/loading-bar.js'></script>
+    <script type='text/javascript' src='pokemon.js'></script>
+    <link rel='stylesheet' type='text/css' href="./style/pokemon-game.css">
+</head>
+
+<header>
+    <img src="pokemon-logo.png" class="pokemon">
+ </header>
+<body>
+    <div class='container'>
+        <form>
+            <fieldset class='trainer'>
+                <legend>Create your trainer and Party</legend>
+    
+                <label for='firstName'>First Name</label>
+                <input type='text' placeholder='First Name' name='firstName' id='firstName'>
+    
+                <br>
+    
+                <label for='lastName'>Last Name</label>
+                <input type='text' placeholder='Last Name' name='lastName' id='lastName'>
+    
+                <br><br>
+    
+                <label for='trainerType'>Trainer Type</label>
+                <select name='trainerType' id='trainerType'>
+                    <option value='bug_catcher'>Bug Catcher</option>
+                    <option value='biker'>Biker</option>
+                    <option value='hiker'>Hiker</option>
+                    <option value='bird_keeper'>Bird Keeper</option>
+                    <option value='blackbelt'>Blackbelt</option>
+                    <option value='burglar'>Burglar</option>
+                    <option value='lass'>Lass</option>
+                    <option value='youngster'>Youngster</option>
+                    <option value='fisherman'>Fisherman</option>
+                    <option value='super_nerd'>Super Nerd</option>
+                    <option value='bird_keeper'>Bird Keeper</option>
+                    <option value='beauty'>Beauty</option>
+                </select>
+    
+                <br><br>
+    
+                <label for='partyOne'>First Pokemon</label>
+                <select name='partyOne' id='partyOne'>
+                    <option value='0'>Bulbasaur</option>
+                    <option value='1'>Charmander</option>
+                    <option value='2'>Squirtle</option>
+                    <option value='3'>Pidgey</option>
+                    <option value='4'>Rattata</option>
+                    <option value='5'>Spearow</option>
+                    <option value='6'>Ekans</option>
+                    <option value='7'>Pikachu</option>
+                </select>
+                
+                <br>
+    
+                <label for='partyTwo'>Second Pokemon</label>
+                <select name='partyTwo' id='partyTwo'>
+                    <option value='0'>Bulbasaur</option>
+                    <option value='1'>Charmander</option>
+                    <option value='2'>Squirtle</option>
+                    <option value='3'>Pidgey</option>
+                    <option value='4'>Rattata</option>
+                    <option value='5'>Spearow</option>
+                    <option value='6'>Ekans</option>
+                    <option value='7'>Pikachu</option>
+                </select>
+    
+                <br>
+    
+                <label for='partyThree'>Third Pokemon</label>
+                <select name='partyThree' id='partyThree'>
+                    <option value='0'>Bulbasaur</option>
+                    <option value='1'>Charmander</option>
+                    <option value='2'>Squirtle</option>
+                    <option value='3'>Pidgey</option>
+                    <option value='4'>Rattata</option>
+                    <option value='5'>Spearow</option>
+                    <option value='6'>Ekans</option>
+                    <option value='7'>Pikachu</option>
+                </select>
+            </fieldset>
+            <br>
+            <button id='goBattle' type='button' onclick='battle()'>Go Battle!</button>
+        </form>
+        <br><br>
+
+        <div id='battle'>
+            <div class='sides'>
+                <div class='mySide side'>
+                    <div>
+                        <img id='mySprite' class='trainerSprite' src='' />
+                        <p id='myName'></p>
+                        <div id='myWinsLosses'>
+                            <p>Wins: <span id='myWins'></span></p>
+                            <p>Losses: <span id='myLosses'></span></p>
+                        </div>
+                    </div>
+                    
+                    <div class='myParty party'>
+                        <div id='myPokemon1' class='pokemon'>
+                            <img id='myPokemonImg1' src='' />
+                            <p id='myPokemonName1'></p>
+                            <div id="myPokemonHP1"></div>
+                        </div>
+
+                        <div id='myPokemon2' class='pokemon'>
+                            <img id='myPokemonImg2' src='' />
+                            <p id='myPokemonName2'></p>
+                            <div id="myPokemonHP2"></div>
+                        </div>
+
+                        <div id='myPokemon3' class='pokemon'>
+                            <img id='myPokemonImg3' src='' />
+                            <p id='myPokemonName3'></p>
+                            <div id="myPokemonHP3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='displays'>
+                    <div id='myDisplay' class='display'>
+                        <h3>Your move</h3>
+                        <p id='myMove'></p>
+                        <p id='myEffectiveness'></p>
+                        <p id='myExtra'></p>
+                        <p id='myFainted'></p>
+                    </div>
+                    <div id='oppDisplay' class='display'>
+                        <h3>Their move</h3>
+                        <p id='oppMove'></p>
+                        <p id='oppEffectiveness'></p>
+                        <p id='oppExtra'></p>
+                        <p id='oppFainted'></p>
+                    </div>
+                    <div id='overallDisplay' class='display'>
+                        <h3>Results</h3>
+                        <p id='overallDisplayText'></p>
+                    </div>
+                </div>
+                
+
+                <div class="oppSide side">
+                    <div class='oppParty party'>
+                        <div id="oppPokemon1" class="pokemon">
+                            <img id='oppPokemonImg1' src='' />
+                            <p id='oppPokemonName1'></p>
+                            <div id="oppPokemonHP1"></div>
+                        </div>
+                        <div id="oppPokemon2" class="pokemon">
+                            <img id='oppPokemonImg2' src='' />
+                            <p id='oppPokemonName2'></p>
+                            <div id="oppPokemonHP2"></div>
+                        </div>
+                        <div id="oppPokemon3" class="pokemon">
+                            <img id='oppPokemonImg3' src='' />
+                            <p id='oppPokemonName3'></p>
+                            <div id="oppPokemonHP3"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <img id='oppSprite' class='trainerSprite' src='' />
+                        <p id='oppName'></p>
+                        <div id='oppWinsLosses'>
+                            <p>Wins: <span id='oppWins'></span></p>
+                            <p>Losses: <span id='oppLosses'></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='moves'>
+                <button onclick='attack()' name='btnAttack' id='btnAttack' style="visibility: hidden;">Attack!</i>
+            </div>
+
+            <div class='restart hidden'>
+                <button onclick='restartGame()' name='btnRestart' id='btnRestart' style="visibility: hidden;">Restart</button>
+            </div>
+        </div>
+    </div>
+    <script>
+
+    //**edited to keep track of wins and losses even after go battle is clicked again**
+    oTrainerWinsTracker = 0;
+    oTrainerLossesTracker = 0;
+    oOppTrainerWinsTracker = 0;
+    oOppTrainerLossesTracker = 0;
+
+
+    class Person
+    {
+        firstName;
+        lastName;
+
+        constructor(fName, lName)
+        {
+            this.firstName = fName;
+            this.lastName = lName;
+        }
+    }
+
+    class Pokemon 
+    {
+        name;
+        type;
+        image;
+        healthPower = 100;
+
+        constructor(name, type, image)
+        {
+            this.name = name;
+            this.type = type;
+            this.image = image;
+        }
+
+        trackHealth(healthPower,id,team)
+       {
+           this.healthPower = healthPower
+           var bar1 = new ldBar("#" + team + "PokemonHP" + id);
+           var bar2 = document.getElementById("myPokemonHP" + id).ldBar;
+           bar1.set(this.healthPower);
+       }
+       
+       resetHealth(id,team)
+       {
+           this.healthPower = 100;
+           bar1 = new ldBar("#" + team + "PokemonHP" + id);
+           bar2 = document.getElementById("myPokemonHP" + id).ldBar;
+           bar1.set(this.healthPower);
+       } 
+    }   
+    
+    class Trainer extends Person
+    {
+        type; //from dropdown box
+        party = []; //the team
+        currPokemon; //which pokemon is battling
+        currPokemonIndex = 0; //which # of pokemon is battling
+        wins = 0;
+        losses = 0;
+
+        constructor(fName, lName, type)
+        {
+            super(fName, lName);
+            this.type = type;
+        }
+
+        addPokemonToParty(dropdown_list_value)
+       {
+           var oPokemon = new Pokemon(pokemonArray[dropdown_list_value][0],pokemonArray[dropdown_list_value][1],pokemonArray[dropdown_list_value][2]);
+           this.party.push(oPokemon);
+           this.currPokemon = this.party[0];
+       }
+       
+       setCurrPokemonToFirstPosition()
+       {
+        this.currPokemon = this.party[0];     
+       }
+        
+       nextPokemon(currPokemonIndex)
+        {
+            if (this.currPokemonIndex < this.party.length - 1)
+            {   
+                this.currPokemon = this.party[++this.currPokemonIndex];
+            }
+            return this.currPokemonIndex;
+        }
+
+        clearParty()
+        {
+            this.party.length = 0;
+        }
+    }
+
+
+
+    let oTrainer;
+    let oOppTrainer;
+    let playCounter = 0; 
+
+    function battle()
+    {   
+        //keep track if it's the first round or not so we know if we need to keep track of wins and losses
+        playCounter++;
+
+
+        //check for values in text fields; if empty, alert and set focus to empty field(s)
+        if (document.getElementById("firstName").value == "")
+        {
+            alert("Must enter first and last name");
+            document.getElementById("firstName").focus();
+        }
+        else if (document.getElementById("lastName").value == "")
+        {
+            alert("Must enter first and last name");
+            document.getElementById("lastName").focus();
+        }
+        else
+        {
+            //create trainer objects and make party arrays for self and opponent
+            oTrainer = new Trainer(document.getElementById("firstName").value, document.getElementById("lastName").value, document.getElementById("trainerType").value);
+            oOppTrainer = new Trainer("Team", "Rocket", "Team Rocket");
+            load();
+        }    
+    }
+
+    function load()
+        {
+        oTrainer.addPokemonToParty(document.getElementById("partyOne").value);
+        oTrainer.addPokemonToParty(document.getElementById("partyTwo").value);      
+        oTrainer.addPokemonToParty(document.getElementById("partyThree").value);
+        //opponent
+        console.log("this is current pokemon", oTrainer.currPokemon);  
+        
+        let oppPoke1 = Math.floor(Math.random() * pokemonArray.length);
+        let oppPoke2 = 0;
+        let oppPoke3 = 0;
+        //so there aren't multiple of same pokemon in one party
+        do
+        {
+            oppPoke2 = Math.floor(Math.random() * pokemonArray.length);
+            oppPoke3 = Math.floor(Math.random() * pokemonArray.length);    
+
+        }      
+        while(oppPoke2 == oppPoke1 || oppPoke2 == oppPoke3 || oppPoke3 == oppPoke1)
+        oOppTrainer.addPokemonToParty(oppPoke1); 
+        oOppTrainer.addPokemonToParty(oppPoke2); 
+        oOppTrainer.addPokemonToParty(oppPoke3); 
+
+        //after battle
+        document.getElementById("btnRestart").style.visibility = "hidden";
+
+        //display images and names of pokemon team
+        for(var icount = 0; icount < oTrainer.party.length; icount++)
+        {
+            document.getElementById("myPokemonImg" + (icount + 1)).src = oTrainer.party[icount].image;
+            document.getElementById("myPokemonName" + (icount+1)).innerHTML = oTrainer.party[icount].name;
+            // oTrainer.party[icount].trackHealth(oTrainer.currPokemon.healthPower,oTrainer.currPokemonIndex+1,"my");
+            oTrainer.party[icount].trackHealth(100,oTrainer.currPokemonIndex+1,"my");
+            document.getElementById("oppPokemonImg" + (icount + 1)).src = oOppTrainer.party[icount].image;
+            document.getElementById("oppPokemonName" + (icount+1)).innerHTML = oOppTrainer.party[icount].name;
+            oOppTrainer.party[icount].trackHealth(100,oOppTrainer.currPokemonIndex+1,"opp");
+
+            }  
+            //display trainer name, image, wins, losses
+            if (playCounter==1)
+            {
+            document.getElementById("myName").innerHTML = oTrainer.firstName + " " + oTrainer.lastName;
+            document.getElementById("mySprite").src ="images/" + document.getElementById("trainerType").value + ".png";        
+            document.getElementById("myWins").innerHTML = oTrainer.wins;
+            document.getElementById("myLosses").innerHTML = oTrainer.losses;
+            //opponent trainer
+            document.getElementById("oppName").innerHTML = oOppTrainer.firstName + " " + oOppTrainer.lastName;
+            document.getElementById("oppSprite").src = "images/Team_Rocket.png";
+            document.getElementById("oppWins").innerHTML = oOppTrainer.wins;
+            document.getElementById("oppLosses").innerHTML = oOppTrainer.losses;
+
+            document.getElementById("btnAttack").style.visibility = "visible";
+            }
+            else
+            {
+            document.getElementById("myName").innerHTML = oTrainer.firstName + " " + oTrainer.lastName;
+            document.getElementById("mySprite").src ="images/" + document.getElementById("trainerType").value + ".png";        
+            document.getElementById("myWins").innerHTML = oTrainerWinsTracker;
+            document.getElementById("myLosses").innerHTML = oTrainerLossesTracker;
+            //opponent trainer
+            document.getElementById("oppName").innerHTML = oOppTrainer.firstName + " " + oOppTrainer.lastName;
+            document.getElementById("oppSprite").src = "images/Team_Rocket.png";
+            document.getElementById("oppWins").innerHTML = oOppTrainerWinsTracker;
+            document.getElementById("oppLosses").innerHTML = oOppTrainerLossesTracker;
+            //reset health
+            document.getElementById("btnAttack").style.visibility = "visible";
+            oTrainer.party[1].trackHealth(100,1+1,"my");
+            oOppTrainer.party[1].trackHealth(100,1+1,"opp");
+            oTrainer.party[2].trackHealth(100,2+1,"my");
+            oOppTrainer.party[2].trackHealth(100,2+1,"opp");
+            //reset displays
+            document.getElementById("myEffectiveness").innerHTML = "";
+            document.getElementById("myExtra").innerHTML = "";
+            document.getElementById("myFainted").innerHTML = "";
+            document.getElementById("oppEffectiveness").innerHTML = "";
+            document.getElementById("oppExtra").innerHTML = "";
+            document.getElementById("oppFainted").innerHTML = "";
+            document.getElementById("overallDisplayText").innerHTML = "";
+            }  
+        }   
+
+
+    function attack()
+    {
+        document.getElementById("myFainted").innerHTML = "";
+        document.getElementById("oppFainted").innerHTML = "";
+                
+        //attack
+        //generate hit power -- possibly reduce opponent's health power
+        //opponent attacks -- possibly reduces my poke's health power
+       
+        var damage_count = calculateEffectiveness(); // recievs numbers to use in clacualting total hp
+        
+        showDamage(oTrainer, damage_count[1],"my");
+        showDamage(oOppTrainer, damage_count[0],"opp");
+       
+        if (oTrainer.currPokemon.healthPower <= 0)
+       {
+          document.getElementById("myMove").innerHTML = "";
+          document.getElementById("myEffectiveness").innerHTML =  "";
+          document.getElementById("myExtra").innerHTML =  "";
+           document.getElementById("myFainted").innerHTML = oTrainer.currPokemon.name + " fainted!";
+           oTrainer.nextPokemon();
+          
+       }
+
+       if (oOppTrainer.currPokemon.healthPower <= 0)
+       {
+           document.getElementById("oppMove").innerHTML = "";
+           document.getElementById("oppEffectiveness").innerHTML =  "";
+           document.getElementById("oppExtra").innerHTML =  "";
+           document.getElementById("oppFainted").innerHTML = oOppTrainer.currPokemon.name + " fainted!";
+           oOppTrainer.nextPokemon();
+           
+       }
+        //used for health power aDamage[0] = myTotalDamage
+        if (oTrainer.currPokemon.healthPower > oOppTrainer.currPokemon.healthPower && oOppTrainer.currPokemon.healthPower <= 0) 
+        {
+            //document.getElementById("myWins").innerHTML = ++oTrainer.wins; **edited to keep track even after go battle is clicked again**
+            document.getElementById("myWins").innerHTML = ++oTrainerWinsTracker;
+            document.getElementById("oppLosses").innerHTML = ++oOppTrainerLossesTracker;
+            document.getElementById("overallDisplayText").innerHTML = oTrainer.firstName +" "+ oTrainer.lastName + " wins"
+            //document.getElementById("oppLosses").innerHTML = ++oOppTrainer.losses; **edited to keep track even after go battle is clicked again**
+            document.getElementById("btnAttack").style.visibility = "hidden";
+            document.getElementById("btnRestart").style.visibility = "visible";
+            //to keep trainers wins and losses consistent with the tracker
+            oTrainer.wins = oTrainerWinsTracker;
+            oOppTrainer.losses = oOppTrainerLossesTracker;
+            
+
+        }
+        else if ((oOppTrainer.currPokemon.healthPower > oTrainer.currPokemon.healthPower) && (oTrainer.currPokemon.healthPower <= 0)) 
+        {
+           //document.getElementById("oppWins").innerHTML = ++oOppTrainer.wins; **edited to keep track even after go battle is clicked again**
+           document.getElementById("oppWins").innerHTML = ++oOppTrainerWinsTracker;
+           document.getElementById("myLosses").innerHTML = ++oTrainerLossesTracker;
+           document.getElementById("overallDisplayText").innerHTML = oOppTrainer.firstName +" "+ oOppTrainer.lastName + " wins"
+           //document.getElementById("myLosses").innerHTML = ++oTrainer.losses; **edited to keep track even after go battle is clicked again**
+           document.getElementById("btnAttack").style.visibility = "hidden";
+           document.getElementById("btnRestart").style.visibility = "visible";
+           //to keep trainers wins and losses consistent with the tracker
+           oOppTrainer.wins = oOppTrainerWinsTracker;
+           oTrainer.losses = oTrainerLossesTracker;
+
+        }
+        
+    }
+    
+    function resetToZero(theTrainer)
+    {
+        theTrainer.currPokemonIndex = 0;
+        //theTrainer.currPokemon.healthPower = 0;
+
+    }
+    
+    function restartGame()
+   {    
+
+    location.reload();
+       /*
+        oTrainerWinsTracker = 0;
+        oTrainerLossesTracker = 0;
+        oOppTrainerWinsTracker = 0;
+        oOppTrainerLossesTracker = 0;
+        oTrainer.party[1].trackHealth(100,1+1,"my");
+        oOppTrainer.party[1].trackHealth(100,1+1,"opp");
+        document.getElementById("overallDisplayText").innerHTML = "";
+        oTrainer.party[2].trackHealth(100,2+1,"my");
+        oOppTrainer.party[2].trackHealth(100,2+1,"opp");
+        oTrainer.clearParty();
+        oOppTrainer.clearParty();
+        resetToZero(oTrainer);
+        resetToZero(oOppTrainer);
+        console.log("theparty=========>>>", oTrainer.party);
+        load();
+        */
+        
+       
+   }
+    
+    function showDamage(theTrainer, DMG, the)
+    {
+        theTrainer.currPokemon.healthPower = theTrainer.currPokemon.healthPower - DMG;  // new poke hp 
+        document.getElementById(the+"Move").innerHTML = theTrainer.currPokemon.name + " attacks"
+        theTrainer.currPokemon.trackHealth(theTrainer.currPokemon.healthPower, theTrainer.currPokemonIndex+1, the); //print new poke hp
+        return theTrainer.currPokemon.healthPower
+    
+    }
+
+
+    //also calculate for opponent's effectiveness
+    function calculateEffectiveness(aDamage)
+    {
+        document.getElementById("myExtra").innerHTML = "";
+        document.getElementById("oppExtra").innerHTML = "";
+       var damage = 10;
+       var myEffectiveness = 0;
+       var oppEffectiveness = 0;
+       var myExtra = Math.random();
+       var oppExtra =  Math.random();
+       var myPokemonType = oTrainer.currPokemon.type;
+       var oppPokemonType = oOppTrainer.currPokemon.type;
+       var myTotalDamage = 0;
+       var oppTotalDamage = 0;
+
+       //myEffectivess value if statement
+       if (myPokemonType == oppPokemonType)
+       {
+           myEffectiveness = .5;
+           oppEffectiveness = .5;
+       }
+       else if(myPokemonType == "Fire" && oppPokemonType =="Water")
+       {
+           myEffectiveness = .5;
+           oppEffectiveness = 1.5;
+       }
+       else if(myPokemonType == "Fire" && oppPokemonType =="Grass")
+       {
+           myEffectiveness = 1.5;
+           oppEffectiveness = .5;
+       }
+       else if(myPokemonType == "Water" && oppPokemonType =="Fire")
+       {
+           myEffectiveness = 1.5;
+           oppEffectiveness = .5;
+       }
+       else if(myPokemonType == "Water" && oppPokemonType =="Grass")
+       {
+           myEffectiveness = .5;
+           oppEffectiveness = 1.5;
+       }
+       else if(myPokemonType == "Grass" && oppPokemonType =="Fire")
+       {
+           myEffectiveness = .5;
+           oppEffectiveness = 1.5;
+       }
+       else if(myPokemonType == "Grass" && oppPokemonType =="Water")
+       {
+           myEffectiveness = 1.5;
+           oppEffectiveness = .5;
+       }
+       else
+       {
+           myEffectiveness = 1;
+           oppEffectiveness = 1;
+       }
+
+       //myEffectivness innerHTML if statement
+       if(myEffectiveness ==.5)
+       {
+           document.getElementById("myEffectiveness").innerHTML = "It's not very effective..."
+       }
+       else if(myEffectiveness == 1.5)
+       {
+           document.getElementById("myEffectiveness").innerHTML = "It was super effective!"
+       }
+
+       if(oppEffectiveness ==.5)
+       {
+           document.getElementById("oppEffectiveness").innerHTML = "It's not very effective..."
+       }
+       else if(oppEffectiveness == 1.5)
+       {
+           document.getElementById("oppEffectiveness").innerHTML = "It was super effective!"
+       }
+
+       //myExtra if statement
+      if(myExtra >= .9)
+      {
+          document.getElementById("myExtra").innerHTML = "Critical Hit";
+      }
+      else if(myExtra <= .1)
+      {
+          myExtra =0;
+          document.getElementById("myExtra").innerHTML = "But it missed...";
+          document.getElementById("myEffectiveness").innerHTML = "";
+      }
+
+      if(oppExtra >= .9)
+      {
+          document.getElementById("oppExtra").innerHTML = "Critical Hit";
+      }
+      else if(oppExtra <= .1)
+      {
+          oppExtra = 0;
+          document.getElementById("oppExtra").innerHTML = "But it missed...";
+          document.getElementById("oppEffectiveness").innerHTML = "";
+      }
+
+      //calculating total damage
+      myTotalDamage = damage*myEffectiveness*myExtra;
+      oppTotalDamage = damage*oppEffectiveness*oppExtra;
+
+      var aDamage = [myTotalDamage, oppTotalDamage];
+      return aDamage;
+    }
+
+    </script>
+
+         <audio id="audio" controls autoplay>
+            <source src = "audio_file_1.mp3" id="track" type="audio/mpeg">
+        </audio>
+</body>
+</html>
